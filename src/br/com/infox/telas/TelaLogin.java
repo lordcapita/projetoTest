@@ -7,6 +7,8 @@ package br.com.infox.telas;
 
 import java.sql.*;
 import br.com.infox.conexao.Conexao;
+import java.awt.Color;
+
 import javax.swing.JOptionPane;
 
 /**
@@ -32,10 +34,25 @@ public class TelaLogin extends javax.swing.JFrame {
             //a linha abaixo executa a query(consulta ao banco de dados)
             rs = pst.executeQuery();
             //se existir usuario e senha correspondente
-            if (rs.next()){
-                TelaPrincipal principal = new TelaPrincipal();
-                principal.setVisible(true);
-                this.dispose();
+            if (rs.next()) {
+                //A linha abaixo optem o conteudo do campo perfil da tabela tbusuarios
+                String perfil = rs.getString(6);
+                //System.out.println(perfil);
+                //Estrutura abaixo faz o tratamento do perfil do usuario
+                if (perfil.equals("admin")) {
+                    TelaPrincipal principal = new TelaPrincipal();
+                    principal.setVisible(true);
+                    TelaPrincipal.MenRel.setEnabled(true);
+                    TelaPrincipal.MenCadUsu.setEnabled(true);
+                    TelaPrincipal.lbl_usuario.setText(rs.getString(2));
+                    TelaPrincipal.lbl_usuario.setForeground(Color.red);
+                    this.dispose();
+                }else{
+                    TelaPrincipal principal = new TelaPrincipal();
+                    principal.setVisible(true);
+                    TelaPrincipal.lbl_usuario.setText(rs.getString(2));
+                    this.dispose();
+                }
                 conexao.close();
             } else {
                 JOptionPane.showMessageDialog(null, "Usuario e/ou Senha Invalidos(s)");
@@ -53,7 +70,7 @@ public class TelaLogin extends javax.swing.JFrame {
         initComponents();
         conexao = Conexao.conector();
         // a linha abaixo serve para apoio ao status de conexao
-        // System.out.println(conexao);
+        System.out.println(conexao);
         if (conexao != null) {
             lblStatus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/infox/icones/DBon.png")));
         } else {
@@ -145,7 +162,6 @@ public class TelaLogin extends javax.swing.JFrame {
         logar();
     }//GEN-LAST:event_BtnLoginActionPerformed
 
-        
     /**
      * @param args the command line arguments
      */
