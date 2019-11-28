@@ -16,8 +16,11 @@ import javax.swing.JOptionPane;
  * @author LordCapita
  */
 public class TelaLogin extends javax.swing.JFrame {
-
+// usando a variavel conexao da classe conexao
     Connection conexao = null;
+    //criando variaveis especiais para conexão com o banco
+    //Prepared Statement e ResultSet sao frameworks do pacote java.sql
+    //e servem para preparar e executar as instruções SQL
     PreparedStatement pst = null;
     ResultSet rs = null;
 
